@@ -2,8 +2,8 @@ import * as React from "react";
 import { View, StyleProp, ViewStyle } from "react-native";
 import {
   COMPONENT_TYPES,
-  FORM_TYPES,
-  FIELD_NAME,
+  createFieldNameProp,
+  createDirectionProp,
   createTextProp,
 } from "@draftbit/types";
 import type { Theme } from "../../styles/DefaultTheme";
@@ -20,18 +20,18 @@ export interface RadioButtonGroupProps {
 const { Provider } = radioButtonGroupContext;
 
 const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
-  direction = Direction.Horizontal,
+  direction = Direction.Vertical,
   value,
   onValueChange = () => {},
   style,
   children,
+  ...rest
 }) => {
   const _containerStyle: StyleProp<ViewStyle> = [
     {
       flexDirection: direction === Direction.Horizontal ? "row" : "column",
       overflow: "hidden",
     },
-    style,
   ];
 
   if (direction !== Direction.Vertical) {
@@ -41,9 +41,11 @@ const RadioButtonGroup: React.FC<RadioButtonGroupProps> = ({
   }
 
   return (
-    <Provider value={{ value, onValueChange, direction }}>
-      <View style={_containerStyle}>{children}</View>
-    </Provider>
+    <View style={[{ minHeight: 40 }, style]} {...rest}>
+      <Provider value={{ value, onValueChange, direction }}>
+        <View style={_containerStyle}>{children}</View>
+      </Provider>
+    </View>
   );
 };
 
@@ -53,23 +55,17 @@ export const SEED_DATA = {
   name: "Radio Button Group",
   tag: "RadioButtonGroup",
   category: COMPONENT_TYPES.button,
+  layout: {},
   props: {
-    direction: createTextProp({
-      label: "Horizontal/Vertical",
-      description: "Whether the buttons should be Horizontal or Vertical",
-      formType: FORM_TYPES.flatArray,
-      defaultValue: "horizontal",
-      options: ["horizontal", "vertical"],
-    }),
+    direction: createDirectionProp(),
     value: createTextProp({
       label: "value",
       description: "Currently selected value of the radio button group",
+      defaultValue: null,
       required: true,
     }),
-    fieldName: {
-      ...FIELD_NAME,
+    fieldName: createFieldNameProp({
       handlerPropName: "onValueChange",
-    },
+    }),
   },
-  layout: {},
 };

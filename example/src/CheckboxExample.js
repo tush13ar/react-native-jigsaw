@@ -4,10 +4,11 @@ import {
   CheckboxRow,
   Row,
   withTheme,
+  ScreenContainer,
 } from "@draftbit/ui";
 import * as React from "react";
 import { StyleSheet, Text, View } from "react-native";
-import Section, { Container } from "./Section";
+import Section from "./Section";
 
 const SingleCheckboxWrapper = ({ label, children }) => (
   <View style={styles.checkboxWrapper}>
@@ -35,7 +36,7 @@ const CheckboxExample = ({ theme }) => {
   const handlePress = () => setChecked((prevState) => !prevState);
 
   return (
-    <Container>
+    <ScreenContainer hasSafeArea={false} scrollable={true}>
       <Section title="Single Checkbox">
         <Row>
           <SingleCheckboxWrapper label="Common">
@@ -74,7 +75,7 @@ const CheckboxExample = ({ theme }) => {
           values={selectedValues}
           onValueChange={handleValueSelected}
         >
-          <CheckboxRow label="First" value="1" />
+          <CheckboxRow label="First" value="1" style={{ fontSize: 32 }} />
           <CheckboxRow label="Second" value="2" />
           <CheckboxRow label="Third" value="3" />
         </CheckboxGroup>
@@ -97,7 +98,7 @@ const CheckboxExample = ({ theme }) => {
           <CheckboxRow label="Disabled" disabled />
         </CheckboxGroup>
       </Section>
-    </Container>
+    </ScreenContainer>
   );
 };
 

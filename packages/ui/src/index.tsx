@@ -1,5 +1,5 @@
 import { Icon } from "@draftbit/native";
-export { AudioPlayer, Icon } from "@draftbit/native";
+export { AudioPlayer, Icon, WebView } from "@draftbit/native";
 export {
   Avatar,
   Carousel,
@@ -20,6 +20,7 @@ export {
   Stack,
   Surface,
   Switch,
+  SwitchRow,
   ThemeProvider,
   Touchable,
   withTheme,
@@ -27,12 +28,9 @@ export {
   /* Deprecated, needs fixing */
   CardBlock,
   CardInline,
-  FieldSlider,
   ProgressBar,
   ProgressCircle,
-  RowBodySwitch,
   RowHeadlineImageCaption,
-  Slider,
 } from "@draftbit/core";
 
 /**
@@ -45,6 +43,7 @@ export {
 import {
   injectIcon,
   AvatarEdit as BaseAvatarEdit,
+  Button as BaseDeprecatedButton,
   ButtonSolid as BaseButtonSolid,
   ButtonOutline as BaseButtonOutline,
   Card as BaseCard,
@@ -71,9 +70,11 @@ import {
   RowHeadlineImageIcon as BaseRowHeadlineImageIcon,
   Accordion as BaseAccordion,
   AccordionItem as BaseAccordionItem,
+  Slider as BaseSlider,
 } from "@draftbit/core";
 
 export const AvatarEdit = injectIcon(BaseAvatarEdit, Icon);
+export const Button = injectIcon(BaseDeprecatedButton, Icon);
 export const ButtonOutline = injectIcon(BaseButtonOutline, Icon);
 export const ButtonSolid = injectIcon(BaseButtonSolid, Icon);
 export const Card = injectIcon(BaseCard, Icon);
@@ -100,3 +101,4 @@ export const TextField = injectIcon(BaseTextField, Icon);
 export const ToggleButton = injectIcon(BaseToggleButton, Icon);
 export const Accordion = injectIcon(BaseAccordion, Icon);
 export const AccordionItem = injectIcon(BaseAccordionItem, Icon);
+export const Slider = injectIcon(BaseSlider, Icon);

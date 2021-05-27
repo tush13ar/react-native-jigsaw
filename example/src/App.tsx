@@ -6,16 +6,12 @@ import {
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import "react-native-gesture-handler";
 import * as React from "react";
+import { View, Text, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { Provider, DefaultTheme, ScreenContainer } from "@draftbit/ui";
 import {
-  View,
-  Text,
-  ScrollView,
-  Image,
-  TouchableOpacity,
-  StyleSheet,
-} from "react-native";
-import { Provider, DefaultTheme } from "@draftbit/ui";
-import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+  SafeAreaProvider,
+  initialWindowMetrics,
+} from "react-native-safe-area-context";
 import AppLoading from "expo-app-loading";
 import * as Font from "expo-font";
 
@@ -57,14 +53,15 @@ import StepperExample from "./StepperExample";
 import TextFieldExample from "./TextFieldExample";
 import CheckboxExample from "./CheckboxExample";
 import AccordionExample from "./AccordionExample";
+import WebViewExample from "./WebViewExample";
 
 const ROUTES = {
   Layout: LayoutExample,
-  CircleImage: CircleImageExample,
   Icon: IconExample,
   Button: ButtonExample,
   FAB: FABExample,
   RadioButton: RadioButtonExample,
+  Checkbox: CheckboxExample,
   Card: CardExample,
   ToggleButton: ToggleButtonExample,
   Accordion: AccordionExample,
@@ -72,9 +69,9 @@ const ROUTES = {
   CardInline: CardInlineExample,
   CardContainer: CardContainerExample,
   CardContainerRating: CardContainerRatingExample,
-  Checkbox: CheckboxExample,
   Carousel: CarouselExample,
   Container: ContainerExample,
+  CircleImage: CircleImageExample,
   // Controllers: ControllerExample,
   DatePicker: DatePickerExample,
   FieldSearchBarFull: FieldSearchBarFullExample,
@@ -90,6 +87,7 @@ const ROUTES = {
   Switch: SwitchExample,
   Stepper: StepperExample,
   TextField: TextFieldExample,
+  WebView: WebViewExample,
 };
 
 let customFonts = {
@@ -105,7 +103,11 @@ function Example({ title, children }) {
   const navigation = useNavigation();
 
   return (
-    <SafeAreaView insets={["top", "bottom"]} style={exampleStyles.mainParent}>
+    <ScreenContainer
+      hasTopSafeArea={true}
+      hasBottomSafeArea={true}
+      scrollable={false}
+    >
       <View style={exampleStyles.headerStyle}>
         <TouchableOpacity
           style={exampleStyles.menuButtonStyle}
@@ -119,9 +121,10 @@ function Example({ title, children }) {
 
         <Text style={[exampleStyles.headerTextStyle]}>{title}</Text>
       </View>
-
-      <ScrollView>{children}</ScrollView>
-    </SafeAreaView>
+      <ScreenContainer scrollable={true} hasSafeArea={false}>
+        {children}
+      </ScreenContainer>
+    </ScreenContainer>
   );
 }
 
@@ -159,7 +162,7 @@ export default function App() {
 
   return (
     <Provider theme={DefaultTheme}>
-      <SafeAreaProvider>
+      <SafeAreaProvider initialMetrics={initialWindowMetrics}>
         <Examples />
       </SafeAreaProvider>
     </Provider>
@@ -187,7 +190,6 @@ const exampleStyles = StyleSheet.create({
     },
     shadowOpacity: 0.29,
     shadowRadius: 4.65,
-
     elevation: 7,
   },
   menuButtonStyle: {

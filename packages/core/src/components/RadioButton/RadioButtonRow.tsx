@@ -12,13 +12,13 @@ import Text from "../Text";
 import { useRadioButtonGroupContext } from "./context";
 import {
   createTextProp,
-  createTextStyle,
-  FORM_TYPES,
+  createTextEnumProp,
   COMPONENT_TYPES,
 } from "@draftbit/types";
 import type { IconSlot } from "../../interfaces/Icon";
 import { Direction as GroupDirection } from "./context";
 import Touchable from "../Touchable";
+import { extractStyles } from "../../utilities";
 
 export enum Direction {
   Row = "row",
@@ -50,10 +50,11 @@ const getRadioButtonAlignment = (
 
 const renderLabel = (
   value: string | React.ReactNode,
-  labelStyle: StyleProp<TextStyle>
+  labelStyle: StyleProp<TextStyle>,
+  textStyle: StyleProp<TextStyle>
 ) => {
   if (typeof value === "string") {
-    return <Text style={labelStyle}>{value}</Text>;
+    return <Text style={[labelStyle, textStyle]}>{value}</Text>;
   } else {
     return <>{value}</>;
   }
@@ -84,11 +85,14 @@ const RadioButtonRow: React.FC<RadioButtonRowProps & IconSlot> = ({
     onValueChange && onValueChange(value);
   };
 
+  const { textStyles, viewStyles } = extractStyles(style);
+
   return (
     <Touchable
       onPress={handlePress}
-      style={[styles.mainParent, { flexDirection: direction }, style]}
+      style={[styles.mainParent, { flexDirection: direction }, viewStyles]}
       disabled={disabled}
+      {...rest}
     >
       <View
         style={[
@@ -99,7 +103,7 @@ const RadioButtonRow: React.FC<RadioButtonRowProps & IconSlot> = ({
           labelContainerStyle,
         ]}
       >
-        {renderLabel(label, labelStyle)}
+        {renderLabel(label, labelStyle, textStyles)}
       </View>
       <View
         style={{
@@ -112,7 +116,6 @@ const RadioButtonRow: React.FC<RadioButtonRowProps & IconSlot> = ({
           selected={selected || contextValue === value}
           onPress={handlePress}
           style={radioButtonStyle}
-          {...rest}
         />
       </View>
     </Touchable>
@@ -144,31 +147,25 @@ export default RadioButtonRow;
 export const SEED_DATA = {
   name: "Radio Button Row",
   tag: "RadioButtonRow",
-  category: COMPONENT_TYPES.container,
+  category: COMPONENT_TYPES.button,
   layout: {},
   props: {
     label: createTextProp({
       label: "Label",
       description: "Label to show with the radio button",
       required: true,
-      defaultValue: null,
+      defaultValue: "First Option",
     }),
-    labelStyle: createTextStyle({
-      label: "Label Style",
-      description: "Change the styles of the label",
-      required: false,
-    }),
-    direction: createTextProp({
+    direction: createTextEnumProp({
       label: "Direction",
       description:
-        "Whether the radio button will appear on the left or on the right",
-      formType: FORM_TYPES.flatArray,
-      defaultValue: "row",
+        "Whether the checkbox will appear on the left or on the right",
       options: ["row", "row-reverse"],
     }),
     value: createTextProp({
       label: "Value",
       description: "Value of the radio button",
+      defaultValue: null,
       required: true,
     }),
   },
