@@ -22,6 +22,8 @@ export { default as Surface } from "./components/Surface";
 export { default as Switch } from "./components/Switch";
 export { default as TextField } from "./components/TextField";
 export { default as ToggleButton } from "./components/ToggleButton";
+export { default as Accordion } from "./components/Accordion";
+export { default as AccordionItem } from "./components/AccordionItem";
 export { default as Touchable } from "./components/Touchable";
 
 export {
